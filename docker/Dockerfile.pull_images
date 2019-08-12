@@ -1,0 +1,11 @@
+# vim: set syntax=dockerfile:
+
+FROM gcr.io/cloud-builders/docker:18.09.6
+
+RUN apt-get -y install --no-install-recommends \
+        parallel=20161222-1~ubuntu0.16.04.1
+
+COPY scripts/pull_images.sh /pull_images.sh
+
+ENTRYPOINT ["/pull_images.sh"]
+

@@ -1,0 +1,2 @@
+brew "hadolint"
+brew "shellcheck"
