@@ -14,6 +14,6 @@ jobs:
       env: 
        DOCKERHUBTOKEN: ${{ secrets.DOCKERHUB }}
       run: |
-        echo "$DOCKERHUB" | docker login --username sashafriedenberg --password-stdin 
+        echo "$DOCKERHUBTOKEN" | docker login --username sashafriedenberg --password-stdin 
         docker build shellcheck/ --file shellcheck/Dockerfile --tag sashafriedenberg/gcb-builders/shellcheck
         docker push sashafriedenberg/gcb-builders/shellcheck
