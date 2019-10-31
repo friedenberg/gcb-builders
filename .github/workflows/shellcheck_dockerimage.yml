@@ -11,4 +11,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the Docker image
-      run: docker build shellcheck/ --file shellcheck/Dockerfile --tag docker.pkg.github.com/friedenberg/gcb-builders/shellcheck
+      run: |
+        docker build shellcheck/ --file shellcheck/Dockerfile --tag docker.pkg.github.com/friedenberg/gcb-builders/shellcheck
+        docker push docker.pkg.github.com/friedenberg/gcb-builders/shellcheck
