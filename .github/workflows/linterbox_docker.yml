@@ -1,22 +1,22 @@
-name: Docker Image CI
+name: Build and Push Linterbox Docker Container
 
 on:
   push:
     paths: 
-    - 'linterbox/**'
+      - "linterbox/**"
 
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      env: 
-       DOCKERHUBTOKEN: ${{ secrets.DOCKERHUB }}
-      run: |
-        echo "$DOCKERHUBTOKEN" | docker login --username friedenberg --password-stdin 
-        docker build linterbox/ --file linterbox/Dockerfile --tag friedenberg/linterbox
-        docker push friedenberg/linterbox
+      - name: Checkout Source
+        uses: actions/checkout@v1
+      - name: Build Container
+        run:  docker build linterbox/ --file linterbox/Dockerfile --tag friedenberg/linterbox
+      - name: Push Container
+        env: 
+          DOCKERHUBTOKEN: ${{ secrets.DOCKERHUB }}
+        run: |
+           echo "$DOCKERHUBTOKEN" | docker login --username friedenberg --password-stdin 
+           docker push friedenberg/linterbox
