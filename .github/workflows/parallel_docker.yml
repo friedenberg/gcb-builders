@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Build and Push Parallel Docker Container
 
 on:
   push:
@@ -8,15 +8,15 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      env: 
-       DOCKERHUBTOKEN: ${{ secrets.DOCKERHUB }}
-      run: |
-        echo "$DOCKERHUBTOKEN" | docker login --username friedenberg --password-stdin 
-        docker build parallel/ --file parallel/Dockerfile --tag friedenberg/parallel
-        docker push friedenberg/parallel
+      - name: Checkout Source
+        uses: actions/checkout@v1
+      - name: Build Container
+        run:  docker build parallel/ --file parallel/Dockerfile --tag friedenberg/parallel
+      - name: Push Container
+        env: 
+          DOCKERHUBTOKEN: ${{ secrets.DOCKERHUB }}
+        run: |
+           echo "$DOCKERHUBTOKEN" | docker login --username friedenberg --password-stdin 
+           docker push friedenberg/parallel
