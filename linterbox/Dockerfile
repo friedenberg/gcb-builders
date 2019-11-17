@@ -1,9 +1,11 @@
 
 
-FROM scratch AS assembler
+FROM alpine AS builder
 
-# hadolint ignore=DL3022
-COPY --from=busybox:1.31.1 /bin /bin
+RUN apk add --no-cache \
+      ca-certificates \
+      perl \
+      parallel
 
 # hadolint ignore=DL3022
 COPY --from=koalaman/shellcheck /bin/shellcheck /bin
@@ -11,10 +13,13 @@ COPY --from=koalaman/shellcheck /bin/shellcheck /bin
 # hadolint ignore=DL3022
 COPY --from=hadolint/hadolint /bin/hadolint /bin
 
+COPY --from=garethr/kubeval /kubeval /bin
+
 COPY entrypoint.sh /bin
 
-FROM scratch AS distro
+RUN mkdir -p /root/.parallel/ && touch /root/.parallel/will-cite
 
-COPY --from=assembler /bin /bin
-
+FROM scratch
+COPY --from=builder / /
 ENTRYPOINT ["/bin/entrypoint.sh"]
+

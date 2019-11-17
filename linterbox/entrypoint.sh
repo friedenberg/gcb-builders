@@ -1,18 +1,22 @@
 #! /bin/sh -e
 
 PROGRAM=$1
+PROGRAM_NAME=${PROGRAM%% *}
 
 shift
 
-case ${PROGRAM%% *} in
+#extract name of program without glob
+case "$PROGRAM_NAME" in
 
-  shellcheck | hadolint) ;;
+  shellcheck | hadolint | kubeval)
+    parallel "$PROGRAM_NAME" ::: $*
+    exit $?
+    ;;
 
   *)
-    exec $PROGRAM $@
+    exec $*
     exit $?
     ;;
 
 esac
 
-echo $@ | xargs -n 1 -P 8 $PROGRAM
