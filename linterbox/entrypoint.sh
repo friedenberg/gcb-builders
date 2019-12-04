@@ -14,7 +14,7 @@ case "$PROGRAM_NAME" in
     ;;
 
   *)
-    exec $*
+    exec "$PROGRAM" $*
     exit $?
     ;;
 
