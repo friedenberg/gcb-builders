@@ -16,6 +16,7 @@ COPY --from=hadolint/hadolint /bin/hadolint /bin
 COPY --from=garethr/kubeval /kubeval /bin
 
 COPY entrypoint.sh /bin
+COPY wrapper.sh /bin
 
 RUN mkdir -p /root/.parallel/ && touch /root/.parallel/will-cite
 
