@@ -11,7 +11,7 @@ PROGRAM="/bin/wrapper.sh $PROGRAM"
 case "$PROGRAM_NAME" in
 
   shellcheck | hadolint | kubeval)
-    if [[ find = "$1" ]]; then
+    if [[ find = "${1%% *}" ]]; then
       set -o noglob
       $* | parallel "$PROGRAM"
     else
