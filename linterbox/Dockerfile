@@ -17,6 +17,7 @@ COPY --from=garethr/kubeval /kubeval /bin
 
 COPY entrypoint.sh /bin
 COPY wrapper.sh /bin
+COPY run.sh /bin
 
 RUN mkdir -p /root/.parallel/ && touch /root/.parallel/will-cite
 
